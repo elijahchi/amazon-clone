@@ -21,6 +21,7 @@ function Payment() {
                         <p>Los Angeles, CA</p>
                     </div>
                 </div>
+
                 <div className="payment_items">
                     <div className="payment_title">
                         <h3>Review items and delivery</h3>
@@ -28,18 +29,24 @@ function Payment() {
                     <div className="payment_items">
                         {basket.map(item => (
                             <CheckoutProduct
-                            id={item.id}
-                            title={item.title}
-                            image={item.image}
-                            price={item.price}
-                            rating={item.rating}
+                                id={item.id}
+                                title={item.title}
+                                image={item.image}
+                                price={item.price}
+                                rating={item.rating}
                             />
                         ))}
                     </div>
 
                 </div>
-                <div className="payment_section">
 
+                <div className="payment_section">
+                    <div className="payment_title">
+                        <h3>Payment Method</h3>
+                    </div>
+                    <div className="payment_details">
+
+                    </div>
                 </div>
             </div>
         </div>
