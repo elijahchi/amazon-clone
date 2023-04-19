@@ -6,21 +6,28 @@ import { BrowserRouter as Router, Switch, Route }
   from "react-router-dom";
 import Checkout from './Checkout';
 import Login from './Login';
+import Orders from './Orders';
 import { auth } from "./firebase";
 import { useStateValue } from "./StateProvider"
 import Payment from './Payment';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
+
+const promise = loadStripe("pk_test_51MwxWzKcVPfSmXxRSNoENYur21TC31j6DNrrk8E37VK3pgoeGE5CW4dz2WP4o8geDfCzuhnmSY3ZXDXcWO1G4obH00eAmQp6WV");
 
 
 function App() {
+  
+  // eslint-disable-next-line no-empty-pattern
   const [{}, dispatch] = useStateValue();
 
   useEffect(() => {
     //will only run once when the app component loads...
     auth.onAuthStateChanged(authUser => {
       console.log('THE USER IS >>>', authUser);
-      
-      if(authUser) {
+
+      if (authUser) {
         //the user just logged in / the user was logged in...
         dispatch({
           type: 'SET_USER',
@@ -33,7 +40,8 @@ function App() {
           user: null
         })
       }
-    } )
+    })
+  
   }, [])
 
   return (
@@ -41,6 +49,10 @@ function App() {
 
       <div className="App">
         <Switch>
+          <Route path="/orders">
+            <Header />
+            <Orders />
+          </Route>
           <Route path="/login">
             <Login />
           </Route>
@@ -50,7 +62,9 @@ function App() {
           </Route>
           <Route path="/payment">
             <Header />
-            <Payment />
+            <Elements stripe={promise}>
+              <Payment />
+            </Elements>
           </Route>
           <Route path="/">
             <Header />
